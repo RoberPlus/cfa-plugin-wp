@@ -7,13 +7,103 @@ Author: Rober Cardenas
 Author URI: https://github.com/RoberPlus
 Version: 0.0.1
 */
+
+// Hook al activar el plugin
+register_activation_hook(__FILE__, 'CFA_Pluguin_Init' );
+
+function CFA_Pluguin_Init()
+{
+    // Obtenemos variables de la db.
+    global $wpdb;
+    $tabla_mensajes = $wpdb->prefix . 'mensaje';
+    $charset_collate = $wpdb->get_charset_collate();
+
+    // Preparar consulta para crear la tabla
+    $query = "CREATE TABLE IF NOT EXISTS $tabla_mensajes (
+        id mediumint(9) NOT NULL AUTO_INCREMENT,
+        nombre varchar(40) NOT NULL,
+        apellido varchar (40) NOT NULL,
+        correo varchar(100) NOT NULL,
+        celular varchar(15),
+        provincia varchar(19) NOT NULL,
+        localidad varchar(40) NOT NULL,
+        perfil varchar(30) NOT NULL,
+        sector varchar(7),
+        compania varchar(100),
+        servicio varchar(28) NOT NULL,
+        mensaje text NOT NULL,
+        created_at datetime NOT NULL,
+        UNIQUE (id)
+    ) $charset_collate";
+
+    // Ejecutando la consulta si wp esta upgrade
+    include_once ABSPATH . 'wp-admin/includes/upgrade.php';
+    dbDelta($query);
+}
+
+// Shortcode para la insercion del Form.
 add_shortcode( 'cfa_plugin_form', 'CFA_Pluguin_Form' );
 
 function CFA_Pluguin_Form()
 {
+    global $wpdb;
+
+    // Validando datos.
+    if (!empty($_POST) 
+        AND $_POST['nombre'] != ''
+        AND $_POST['apellido'] != ''
+        AND is_email( $_POST['correo'])
+        AND $_POST['provincia'] != ''
+        AND $_POST['localidad'] != ''
+        AND $_POST['perfil'] != ''
+        AND $_POST['servicio'] != ''
+        AND $_POST['mensaje'] != '' 
+    )   {
+        // Indicamos la tabla.
+        $tabla_mensajes = $wpdb->prefix . 'mensaje';
+
+        // Saneando campos.
+        $nombre = sanitize_text_field( $_POST['nombre'] );
+        $correo = sanitize_email( $_POST['correo'] );
+        $celular = sanitize_text_field( $_POST['celular'] );
+        $apellido = sanitize_text_field( $_POST['apellido'] );
+        $provincia = sanitize_text_field( $_POST['provincia'] );
+        $localidad = sanitize_text_field( $_POST['localidad'] );
+        $perfil = sanitize_text_field( $_POST['perfil'] );
+        $servicio = sanitize_text_field( $_POST['servicio'] );
+        $mensaje = sanitize_text_field( $_POST['mensaje'] );
+        $created_at = date('Y-m-d H:i:s'); 
+
+        // Insertado datos.
+        if ($_POST['perfil'] == 'Operador de telecomunicaciones' 
+            AND $_POST['sector'] != '' 
+            AND $_POST['compania'] != ''
+            ) {
+            $sector = sanitize_text_field( $_POST['sector'] );
+            $compania = sanitize_text_field( $_POST['compania'] );
+        }
+
+        $wpdb->insert($tabla_mensajes, [
+            'nombre' => $nombre,
+            'apellido' => $apellido,
+            'correo' => $correo,
+            'celular' => $celular ? $celular : '',
+            'provincia' =>$provincia,  
+            'localidad' =>$localidad, 
+            'perfil' =>$perfil,  
+            'sector' => $sector ? $sector : '',  
+            'compania' => $compania ? $compania : '', 
+            'servicio' => $servicio, 
+            'mensaje' => $mensaje,
+            'created_at' => $created_at,
+        ]);
+    }
+
+    // Form que se insertara con el shortcode
     ob_start();
     ?>
-        <form method="POST" action="<?php get_the_permalink(); ?> class="form-alpha" ">
+        <!-- Contact Form Alpha -->
+        <form method="POST" action="<?php get_the_permalink(); ?>" class="form-alpha">
             <div class="form-input">
                 <label for="nombre">Nombre</label>
                 <input type="text" name="nombre" id="nombre" required>
@@ -23,12 +113,12 @@ function CFA_Pluguin_Form()
                 <input type="text" name="apellido" id="apellido" required>
             </div>
             <div class="form-input">
-                <label for="email">Email</label>
-                <input type="email" name="email" id="email" required>
+                <label for="correo">Email</label>
+                <input type="email" name="correo" id="correo" required>
             </div>
             <div class="form-input">
                 <label for="celular">Celular</label>
-                <input type="number" name="celular" id="celular" required>
+                <input type="text" name="celular" id="celular">
             </div>
             <div class="form-input">
                 <label for="provincia">Provincia</label>
@@ -83,10 +173,6 @@ function CFA_Pluguin_Form()
                 <input type="text" name="compania" id="compania" required>
             </div>
             <div class="form-input">
-                <label for="celular">Celular</label>
-                <input type="number" name="celular" id="celular" required>
-            </div>
-            <div class="form-input">
                 <label for="servicio">Servicio en el que esta interesado/a</label>
                 <select name="servicio" id="servicio" required>
                     <option value="" selected>-- Seleccione --</option>
@@ -115,6 +201,24 @@ function CFA_Pluguin_Form()
                 <input type="submit" value="Enviar">
             </div>
         </form>
+        <!-- EndContact Form Alpha -->
+
+        <!-- Scripts -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+        <script>
+            $( function() {
+                $("#perfil").change( function() {
+                    if ($(this).val() === "Usuario Final" || "") {
+                        $("#compania").prop("disabled", true);
+                        $("#sector").prop("disabled", true);
+                    } else {
+                        $("#compania").prop("disabled", false);
+                        $("#sector").prop("disabled", false);
+                    }
+                });
+            });
+        </script>
+        <!-- End Scripts -->
     <?php
     return ob_get_clean();
 };
