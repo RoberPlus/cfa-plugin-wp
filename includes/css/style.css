@@ -1,0 +1,146 @@
+.form-alpha {
+    margin: 0;
+    font-family: Roboto !important;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    text-align: left;
+    background-color: #fff;
+    width: 100% !important;
+    margin: auto;
+    padding: 0;
+    font-family: 'Roboto',sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    text-align: left;
+}
+
+.form-alpha section{
+    display: block;
+    width: 100%;
+    background: #F9F9F9;
+    padding: 4em 0;
+    margin: 2em 0;
+}
+
+.form-alpha section .container{
+    max-width: 960px;
+    padding-right: .5rem !important;
+    padding-left: .5rem !important;
+    width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.form-alpha .form-mensajes .container .form-row{
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -5px;
+    margin-left: -5px;
+}
+
+.form-alpha .form-mensajes .container .form-row .form-input-container{
+    flex: 0 0 50%;
+    max-width: 50%;
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
+    padding-left: .25rem !important;
+    padding-bottom: .25rem !important;
+    padding-right: .25rem !important;
+    padding-top: .25rem !important;
+}
+
+.form-alpha .form-mensajes .container .form-row .form-input-container .form-input{
+    margin-right: 5px !important;
+    min-width: 70px !important;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    font-family: 'Roboto',sans-serif;
+    box-sizing: border-box;
+    font-size: 1.4rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    text-align: left;
+}
+
+.form-alpha .form-mensajes .container .form-row .form-input-container .form-input input[type="text"],
+.form-alpha .form-mensajes .container .form-row .form-input-container .form-input input[type="email"],
+.form-alpha .form-mensajes .container .form-row .form-input-container .form-input select
+{
+    margin: 0;
+    width: 100%;
+    font-weight: 100;
+    font-size: 1em;
+    color: #212529;
+    border-radius: 0;
+    border: solid 1px #EDEDED;
+    padding: 1.5em 1em;
+    display: block;
+    margin-top: .25rem;
+    height: calc(1.5em + .75rem + 2px);
+    line-height: 1.5;
+    background-color: #fff;
+    background-clip: padding-box;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    overflow: visible;
+    overflow-x: visible;
+    overflow-y: visible;
+}
+
+.form-alpha .form-mensajes .container .form-row .form-input-container-textarea{
+    position: relative;
+    width: 100%;
+    flex: 0 0 100%;
+    max-width: 100%;
+    padding-left: .25rem !important;
+    padding-right: .25rem !important;
+}
+
+.form-alpha .form-mensajes .container .form-row .form-input-container-textarea .form-textarea{
+    margin-right: 5px !important;
+    min-width: 70px !important; 
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+.form-alpha .form-mensajes .container .form-row .form-input-container-textarea .form-textarea textarea{
+    font-weight: 100;
+    font-size: 1em;
+    color: #767676;
+    border-radius: 0;
+    border: solid 1px #EDEDED;
+    padding: 1.5em 1em;
+    height: auto;
+    display: block;
+    margin: 0;
+    width: 100%;
+    line-height: 1.5;
+    background-color: #fff;
+    background-clip: padding-box;
+    overflow: auto;
+    resize: vertical;
+}
+
+.form-alpha .form-mensajes .container .form-row .form-input-container .form-input input[type="submit"]{
+    border: solid 1px #EDEDED !important;
+    display: inline-block !important;
+    color: #fff !important;
+    font-weight: 700 !important;
+    background: #3C91D4 !important;
+    padding: 0.5em 1em !important;
+    border-radius: 4px !important;
+    text-transform: uppercase !important;
+    font-size: 1em !important;
+    margin: 1em 0 !important;
+    clear: both !important;
+    -webkit-appearance: button;
+}
+
+.form-alpha .form-mensajes .container .form-row .form-input-container .form-input input[type="submit"]:hover{
+    text-decoration: none;
+}
