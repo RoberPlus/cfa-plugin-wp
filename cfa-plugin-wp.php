@@ -24,7 +24,7 @@ include(CFA_RUTA . 'includes/insert-data.php');
 include(CFA_RUTA . 'includes/admin-menu.php');
 
 // Hoja de estilo para el formulario
-wp_enqueue_style('css_form_alpha', plugins_url('includes/css/style.css', __FILE__));
+// wp_enqueue_style('css_form_alpha', plugins_url('includes/css/style.css', __FILE__));
 
 // Hook al activar el plugin, create-table.php
 register_activation_hook(__FILE__, 'CFA_Pluguin_Init' );
